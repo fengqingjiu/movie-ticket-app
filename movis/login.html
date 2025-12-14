@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录界面</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+    <!-- 登录页面容器 -->
+    <div class="login-page">
+        <div class="login-container">
+            <!-- 左边部分：logo和装饰图片 -->
+            <div class="login-left">
+                <!-- Logo点击跳转首页 -->
+                <a href="index.html" class="logo-link">
+                    <img src="images/logo.jpg" alt="电影Logo">
+                </a>
+                <img src="images/界面装饰.png" alt="界面装饰" class="decoration-img">
+            </div>
+            
+            <!-- 右边部分：登录表单 -->
+            <div class="login-right">
+                <div class="auth-card">
+                    <h2>用户登录</h2>
+
+                    <!-- 登录表单：输入登录信息 -->
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="email">邮箱地址</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">密码</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+
+                        <!-- 登录按钮 -->
+                        <button type="submit" class="btn-primary">登录</button>
+                    </form>
+
+                    <!-- 跳转忘记密码和注册新账号链接 -->
+                    <div class="auth-links">
+                        <a href="forgot-pwd.html">忘记密码？</a>
+                        <a href="register.html">注册新账号</a>
+                    </div>
+
+                    <div id="message" class="message"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入JavaScript文件 -->
+    <!-- 显示消息、弹窗功能 -->
+    <script src="js/utils.js"></script>
+    <!-- 认证相关功能 -->
+    <script src="js/auth.js"></script>
+
+    <script>
+        // 添加提交事件监听器
+        // 登录按钮的执行函数
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            login(email, password);
+        });
+    </script>
+</body>
+</html>

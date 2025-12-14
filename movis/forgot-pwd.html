@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>忘记密码</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+    <div class="login-page">
+        <div class="login-container">
+            <!-- 左边部分：logo和装饰图片 -->
+            <div class="login-left">
+                <!-- Logo点击跳转首页 -->
+                <a href="index.html" class="logo-link">
+                    <img src="images/logo.jpg" alt="电影Logo">
+                </a>
+                <img src="images/界面装饰.png" alt="界面装饰" class="decoration-img">
+            </div>
+            
+            <!-- 右边部分：找回密码表单 -->
+            <div class="login-right">
+                <div class="auth-card">
+                    <h2>找回密码</h2>
+
+                    <!-- 找回密码表单部分 -->
+                    <form id="forgotForm">
+                        <div class="form-group">
+                            <label for="resetEmail">邮箱地址</label>
+                            <input type="email" id="resetEmail" name="email" required>
+                        </div>
+
+                        <!-- 新密码输入部分 -->
+                        <div class="form-group">
+                            <label for="newPwd">新密码</label>
+                            <input type="password" id="newPwd" name="newPwd" required>
+                        </div>
+
+                        <!-- 确认密码输入部分 -->
+                        <div class="form-group">
+                            <label for="confirmPwd">确认密码</label>
+                            <input type="password" id="confirmPwd" name="confirmPwd" required>
+                            <!-- 密码匹配提示信息显示区域 -->
+                            <span id="pwdtip" class="match-text"></span>
+                        </div>
+
+                        <!-- 提交按钮 -->
+                        <button type="submit" class="btn-primary">重置密码</button>
+                    </form>
+
+                    <!-- 跳转返回登录链接 -->
+                    <div class="auth-links">
+                        <a href="login.html">返回登录</a>
+                    </div>
+
+                    <!-- 显示操作结果的提示 -->
+                    <div id="message" class="message"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入JavaScript文件 -->
+    <!-- 显示消息、弹窗功能 -->
+    <script src="js/utils.js"></script>
+    <!-- 认证相关功能 -->
+    <script src="js/auth.js"></script>
+
+    <script>
+        // 重置密码按钮的执行函数
+        document.getElementById('forgotForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('resetEmail').value;
+            const newPwd = document.getElementById('newPwd').value;
+            const confirmPwd = document.getElementById('confirmPwd').value;
+            
+            // 验证信息是否都填写完整
+            if (!email || !newPwd || !confirmPwd) {
+                showModal('输入错误', '请填写所有字段', 'error');
+                return;
+            }
+        
+            if (newPwd !== confirmPwd) {
+                showModal('输入错误', '两次输入的密码不一致', 'error');
+                return;
+            }
+
+            // 检查密码长度不少于8位且密码必须含有字母数字
+            if (newPwd.length < 8) {
+                showModal('密码太短', '密码长度至少8位', 'error');
+                return;
+            }
+
+            if (!validpwd(newPwd)) {
+                showModal('密码不符合要求', '密码必须包含字母和数字', 'error');
+                return;
+            }
+            
+            // 重置成功并弹窗
+            showModal('密码重置成功', '密码已重置成功！即将跳转到登录页面', 'success', () => {
+            window.location.href = 'login.html';
+            });
+        });
+
+        // 给确认密码输入框添加输入事件监听
+        document.getElementById('confirmPwd').addEventListener('input', function() {
+            const newPwd = document.getElementById('newPwd').value;
+            const confirm = this.value;
+            const pwdtip = document.getElementById('pwdtip');
+            
+            // 检查密码匹配是否成功并提示
+            if (confirm && newPwd !== confirm) {
+                pwdtip.textContent = '密码不匹配';
+                pwdtip.className = 'match-text error';
+            } else if (confirm && newPwd === confirm) {
+                pwdtip.textContent = '密码匹配';
+                pwdtip.className = 'match-text success';
+            } else {
+                pwdtip.textContent = '';
+                pwdtip.className = 'match-text';
+            }
+        });
+    </script>
+</body>
+</html>

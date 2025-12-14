@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+    <div class="login-page">
+        <div class="login-container">
+            <!-- 左边部分：logo和装饰图片 -->
+            <div class="login-left">
+                <!-- Logo点击跳转首页 -->
+                <a href="index.html" class="logo-link">
+                    <img src="images/logo.jpg" alt="电影Logo">
+                </a>
+                <img src="images/界面装饰.png" alt="界面装饰" class="decoration-img">
+            </div>
+            
+            <!-- 右边部分：注册表单 -->
+            <div class="login-right">
+                <div class="auth-card">
+                    <h2>用户注册</h2>
+
+                    <!-- 注册表单：输入信息 -->
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="email">邮箱地址</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <!-- 密码输入部分 -->
+                        <div class="form-group">
+                            <label for="pwd1">密码</label>
+                            <input type="password" id="pwd1" name="password" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pwd2">确认密码</label>
+                            <input type="password" id="pwd2" name="pwd2" required>
+                            <span id="pwdtip" class="match-text"></span>
+                        </div>
+
+                        <!-- 注册按钮 -->
+                        <button type="submit" class="btn-primary">注册</button>
+                    </form>
+
+                    <!-- 跳转登录链接 -->
+                    <div class="auth-links">
+                        <a href="login.html">已有账号？立即登录</a>
+                    </div>
+
+                    <div id="message" class="message"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入JavaScript文件 -->
+    <!-- 显示消息、弹窗功能 -->
+    <script src="js/utils.js"></script>
+    <!-- 认证相关功能 -->
+    <script src="js/auth.js"></script>
+
+    <script>
+        // 注册表单添加提交事件监听
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('pwd1').value;
+            const pwd2 = document.getElementById('pwd2').value;
+            
+            // 调用注册函数
+            register(email, password, pwd2);
+        });
+
+        // 确认密码输入框添加输入事件监听：输入时实时检查密码匹配情况
+        document.getElementById('pwd2').addEventListener('input', function() {
+            const password = document.getElementById('pwd1').value;
+            const confirm = this.value;
+            const pwdtip = document.getElementById('pwdtip');
+            
+            // 检查密码匹配时显示相应提示
+            if (confirm && password !== confirm) {
+                pwdtip.textContent = '密码不匹配';
+                pwdtip.className = 'match-text error';
+            } else if (confirm && password === confirm) {
+                pwdtip.textContent = '密码匹配';
+                pwdtip.className = 'match-text success';
+            } else {
+                pwdtip.textContent = '';
+            }
+        });
+    </script>
+</body>
+</html>
